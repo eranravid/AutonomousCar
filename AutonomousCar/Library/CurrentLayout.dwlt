@@ -95,7 +95,7 @@ MonoBehaviour:
   m_MinSize: {x: 336, y: 271}
   m_MaxSize: {x: 14006, y: 10021}
   vertical: 0
-  controlID: 97
+  controlID: 147
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -402,18 +402,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/imports/fuatxo91xk-Paris/Paris
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/imports/fuatxo91xk-Paris/Paris
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\dev\unity\AutonomousCar\AutonomousCar
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 302a0000
-    m_LastClickedID: 10800
+    m_SelectedIDs: ea240000
+    m_LastClickedID: 9450
     m_ExpandedIDs: 00000000ea2400007e290000ea29000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -557,24 +557,24 @@ MonoBehaviour:
     width: 209
     height: 625
   m_TreeViewState:
-    scrollPos: {x: 0, y: 1232}
-    m_SelectedIDs: f0faffff
-    m_LastClickedID: -1296
-    m_ExpandedIDs: d0fbffffd2fbffff00000000
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: d2fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: track
+      m_OriginalName: track
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -45232
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 7}
     m_SearchString: 
@@ -610,14 +610,14 @@ MonoBehaviour:
     width: 613
     height: 625
   m_SceneLighting: 1
-  lastFramingTime: 74.98276587575178
+  lastFramingTime: 43.79148916003353
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 98.61213, y: -134.88196, z: -34.615517}
+    m_Target: {x: -50.99849, y: -5.655411, z: -326.00842}
     speed: 2
-    m_Value: {x: 98.61213, y: -134.88196, z: -34.615517}
+    m_Value: {x: -50.99849, y: -5.655411, z: -326.00842}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -640,13 +640,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.2052998, y: 0.7522225, z: -0.56277055, w: 0.2744135}
+    m_Target: {x: -0.09637696, y: -0.80833083, z: 0.56412923, w: -0.13809784}
     speed: 2
-    m_Value: {x: 0.2052998, y: 0.7522225, z: -0.56277055, w: 0.2744135}
+    m_Value: {x: -0.09637696, y: -0.80833083, z: 0.56412923, w: -0.13809784}
   m_Size:
-    m_Target: 694.95184
+    m_Target: 248.50546
     speed: 2
-    m_Value: 694.95184
+    m_Value: 248.50546
   m_Ortho:
     m_Target: 0
     speed: 2
