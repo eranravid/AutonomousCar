@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 public class SimMaster : MonoBehaviour {
 
     public GameObject carPrefab;
-    public int testSubjectNum = 3;
     //public GA ga;
     public GGA gga;
     public List<GameObject> testSubjects = new List<GameObject>();
