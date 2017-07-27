@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Assets\scripts\CameraController.cs" />
     <Compile Include="Assets\scripts\Car.cs" />
+    <Compile Include="Assets\scripts\GUIController.cs" />
     <Compile Include="Assets\scripts\Motor.cs" />
     <Compile Include="Assets\scripts\RayCast.cs" />
     <Compile Include="Assets\scripts\SimMaster.cs" />

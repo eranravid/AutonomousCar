@@ -3,37 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Boo.Lang;
 using FANNCSharp.Float;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SimMaster : MonoBehaviour {
+public class SimMaster : MonoBehaviour
+{
 
+    public static SimMaster instance;
     public GameObject carPrefab;
     //public GA ga;
     public GGA gga;
-    public List<GameObject> testSubjects = new List<GameObject>();
+    public System.Collections.Generic.List<GameObject> testSubjects = new System.Collections.Generic.List<GameObject>();
     
     public GameObject[] SPs;
 
+    public Car selectedCar;
+
     public void OnGUI()
     {
-        int x = 100;
-        int y = 100;
-        GUI.Label(new Rect(x, y, 500, 20), "Time: " + Time.time); 
-        GUI.Label(new Rect(x, y + 20, 500, 20), "Population: " + gga.populationNumber + " Best Fitness: " + GGA.bestFitness + " Fitness Goal: " + gga.fitnessGoal);
-        GUI.Label(new Rect(x, y + 40, 500, 20), "Generation: " + gga.generation + " Genomes: " + gga.genomes.Count + " Live Genomes: " + gga.liveGenomes.Count + " Dead Genomes: " + gga.deadGenomes.Count);
-        GUI.Label(new Rect(x, y + 60, 500, 20), "Random Margin: " + gga.randomMargin + " Mutate Rate: " + gga.mutateRate);
-        //GUI.Label(new Rect(x + 200, y + 20, 200, 20), "BestFitness: " + bestFitness);
-        /* GUI.Label(new Rect(x + 200, y, 200, 20), "CurrentFitness: " + bestFitness);
-         GUI.Label(new Rect(x + 300, y, 200, 20), "out1: " + (testAgent.leftTheta / 2 - 6));
-         GUI.Label(new Rect(x + 300, y + 20, 200, 20), "out2: " + testAgent.rightTheta);*/
-
+      
     }
 
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        if (instance != null)
+        {
+            // TODO: destroy object
+            return;
+        }
+        instance = this;
 
         gga = new GGA();
 
@@ -48,19 +50,28 @@ public class SimMaster : MonoBehaviour {
         Transform t;
         foreach (GameObject c in SPs)
         {
+            // create car in place
             t = c.gameObject.GetComponent<Transform>();
             GameObject car = (GameObject)Instantiate(carPrefab,t.transform); ;
-            car.GetComponent<Car>().master = this;
+            // initiate car component
+            Car carComp = car.GetComponent<Car>();
+            carComp.master = this;
+            carComp.id = gga.liveGenomes.Count;
             testSubjects.Add(car);
-            NextTestSubject(car.GetComponent<Car>());
+            // initiate as test subjuct by gga
+            NextTestSubject(carComp);
+            selectedCar = carComp;
         }
+
         
+
+
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    
+	    gga.CalculateAvarageFitness();
         for (int i=0; i< testSubjects.Count; i++)
         {
             // if test subject falied start a new one
@@ -107,7 +118,7 @@ public class SimMaster : MonoBehaviour {
 }
 
 
-public class GGA
+public class GGA 
 {
     public int generation = 0;
     public int populationNumber = 20;
@@ -115,9 +126,10 @@ public class GGA
     public float mutateRate = 0.55f; // the chane for each gene to take random mutate
     public int fitnessGoal = 2000; // amount of fitness to stop generating genomes. also randomAmplfier of crossbreed for mutateRate & randomMargin is redundent by it.
     public static int bestFitness = 0;
-    public List<GGenome> genomes = new List<GGenome>();
-    public List<GGenome> liveGenomes = new List<GGenome>();
-    public List<GGenome> deadGenomes = new List<GGenome>();
+    public static float avarageFitness = 0; 
+    public System.Collections.Generic.List<GGenome> genomes = new System.Collections.Generic.List<GGenome>();
+    public System.Collections.Generic.List<GGenome> liveGenomes = new System.Collections.Generic.List<GGenome>();
+    public System.Collections.Generic.List<GGenome> deadGenomes = new System.Collections.Generic.List<GGenome>();
 
     public GGA()
     {
@@ -126,6 +138,18 @@ public class GGA
             uint rn = Convert.ToUInt32(RayCast.raysNumber);
             genomes.Add(new GGenome(rn, new uint[]{ rn },2));
         }
+    }
+
+    public void CalculateAvarageFitness()
+    {
+        if (liveGenomes.Count == 0) return;
+
+        avarageFitness = 0;
+        for (int i = 0; i < liveGenomes.Count; i++)
+        {
+            avarageFitness += liveGenomes[i].fitness;
+        }
+        avarageFitness = avarageFitness / liveGenomes.Count;
     }
 
     public GGenome getNextGenome()
@@ -142,7 +166,7 @@ public class GGA
             passGenomes = liveGenomes.Count + deadGenomes.Count;
         }
         GGenome g = genomes[passGenomes];
-        liveGenomes.Add(g);
+        liveGenomes.Add(g);        
         return g;
     }
 
@@ -162,7 +186,7 @@ public class GGA
         {
             genomes.Remove(deadGenomes[i]);
         }
-        deadGenomes = new List<GGenome>();
+        deadGenomes = new System.Collections.Generic.List<GGenome>();
 
         // fill up randomed breeded genomes
         GGenome[] newGenomes = crossBreed(parents, populationNumber - genomes.Count, true);
@@ -276,7 +300,7 @@ public class GGenome
         _outputLayers = outputLayers;
 
         // create a new neural network
-        ICollection < uint > layers = new List<uint>();
+        ICollection < uint > layers = new System.Collections.Generic.List<uint>();
         layers.Add(inputLayers);
         for (uint i = 0; i < hiddenLayers.Length; i++)
         {

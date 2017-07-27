@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using FANNCSharp.Float;
 using UnityEngine;
 
-public class Car : MonoBehaviour {
+public class Car : MonoBehaviour
+{
+
+    public int id = 0;
 
     public bool hasFailed = false;
 
@@ -87,6 +90,11 @@ public class Car : MonoBehaviour {
             //Debug.Log("Car serialized output: speed " + currentSpeed + " angle " + headingAngle);
         }
         
+    }
+
+    void OnMouseDown()
+    {
+        master.selectedCar = this;
     }
 
     public void setGenome(GGenome gen)
