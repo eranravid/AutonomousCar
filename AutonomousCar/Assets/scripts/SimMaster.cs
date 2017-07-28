@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Boo.Lang;
 using FANNCSharp.Float;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,7 +14,7 @@ public class SimMaster : MonoBehaviour
     public GameObject carPrefab;
     //public GA ga;
     public GGA gga;
-    public System.Collections.Generic.List<GameObject> testSubjects = new System.Collections.Generic.List<GameObject>();
+    public List<GameObject> testSubjects = new  List<GameObject>();
     
     public GameObject[] SPs;
 
@@ -127,9 +126,9 @@ public class GGA
     public int fitnessGoal = 2000; // amount of fitness to stop generating genomes. also randomAmplfier of crossbreed for mutateRate & randomMargin is redundent by it.
     public static int bestFitness = 0;
     public static float avarageFitness = 0; 
-    public System.Collections.Generic.List<GGenome> genomes = new System.Collections.Generic.List<GGenome>();
-    public System.Collections.Generic.List<GGenome> liveGenomes = new System.Collections.Generic.List<GGenome>();
-    public System.Collections.Generic.List<GGenome> deadGenomes = new System.Collections.Generic.List<GGenome>();
+    public  List<GGenome> genomes = new  List<GGenome>();
+    public  List<GGenome> liveGenomes = new  List<GGenome>();
+    public  List<GGenome> deadGenomes = new  List<GGenome>();
 
     public GGA()
     {
@@ -186,7 +185,7 @@ public class GGA
         {
             genomes.Remove(deadGenomes[i]);
         }
-        deadGenomes = new System.Collections.Generic.List<GGenome>();
+        deadGenomes = new  List<GGenome>();
 
         // fill up randomed breeded genomes
         GGenome[] newGenomes = crossBreed(parents, populationNumber - genomes.Count, true);
@@ -300,7 +299,7 @@ public class GGenome
         _outputLayers = outputLayers;
 
         // create a new neural network
-        ICollection < uint > layers = new System.Collections.Generic.List<uint>();
+        ICollection < uint > layers = new  List<uint>();
         layers.Add(inputLayers);
         for (uint i = 0; i < hiddenLayers.Length; i++)
         {

@@ -84,6 +84,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CarSelectControllerS.cs" />
+    <Compile Include="Assets\CarSelectListContent.cs" />
     <Compile Include="Assets\scripts\CameraController.cs" />
     <Compile Include="Assets\scripts\Car.cs" />
     <Compile Include="Assets\scripts\GUIController.cs" />

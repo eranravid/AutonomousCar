@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections;
-using System.Xml.Serialization;
-using Boo.Lang;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
 public class GUIController : MonoBehaviour {
 
-    public System.Collections.Generic.List<Text> texts = new System.Collections.Generic.List<Text>();
-    private System.Collections.Generic.List<String> varTexts = new System.Collections.Generic.List<String>();
+    public List<Text> texts = new List<Text>();
+    private List<String> varTexts = new List<String>();
     public Text carID;
     public Text carFitness;
     public Image carWheel;
     public Image speedDial;
     public Text steerText;
-    public Text speedText;
+    public Text speedText;    
 
 
     // Use this for initialization
@@ -37,7 +36,7 @@ public class GUIController : MonoBehaviour {
 
         rotationVector.z = MapInterval(car.currentSpeed,0, car.MAX_SPEED, 170, -60);
 	    speedDial.transform.rotation = Quaternion.Euler(rotationVector);
-	    speedText.text = car.currentSpeed.ToString();
+	    speedText.text = car.currentSpeed.ToString();        
 
 
         rotationVector.z = 0;

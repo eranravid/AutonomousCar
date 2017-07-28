@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 public class RayCast : MonoBehaviour {
@@ -8,7 +9,9 @@ public class RayCast : MonoBehaviour {
     public static int raysNumber = 36; // must be odd number
     public float[] rays;
     private Vector3[] angles;
-    
+
+    public List<LineRenderer> lines = new List<LineRenderer>();
+
     private Vector3 origin;
 	private float heading;
 
@@ -16,12 +19,26 @@ public class RayCast : MonoBehaviour {
     {
         rays = new float[raysNumber];
         angles = new Vector3[raysNumber];
+
+        for (int i = 0; i < raysNumber; i++)
+        {
+            LineRenderer line = gameObject.AddComponent<LineRenderer>();            
+            line.startWidth = 2.5f;
+            line.SetVertexCount(2);
+            line.useWorldSpace = false;
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, transform.position + Vector3.up);
+            lines.Add(line);
+
+        }
+        
     }
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
-        origin = transform.position + Vector3.up * 1.2f;
+	    origin = transform.position;// + Vector3.up * 1.2f;
 		
 		heading = transform.rotation.eulerAngles.y;
 		

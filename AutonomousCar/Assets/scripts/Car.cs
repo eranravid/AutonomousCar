@@ -21,7 +21,7 @@ public class Car : MonoBehaviour
     public GGenome genome;
     public RayCast raycast;
     public Motor motor;
-    public hit hit;
+    public hit hit;    
 
     public int fitness = 0;
     public int genomeIndx = 0;
@@ -95,6 +95,8 @@ public class Car : MonoBehaviour
     void OnMouseDown()
     {
         master.selectedCar = this;
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.color = new Color(0.5f, 1, 1);
     }
 
     public void setGenome(GGenome gen)
