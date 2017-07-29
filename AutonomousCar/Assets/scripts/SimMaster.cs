@@ -22,7 +22,7 @@ public class SimMaster : MonoBehaviour
 
     public void OnGUI()
     {
-      
+        selectedCar.GetComponent<Car>().selectThisCar();
     }
 
 
@@ -60,10 +60,7 @@ public class SimMaster : MonoBehaviour
             // initiate as test subjuct by gga
             NextTestSubject(carComp);
             selectedCar = carComp;
-        }
-
-        
-
+        }        
 
     }
 	

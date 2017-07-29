@@ -29,6 +29,8 @@ public class Car : MonoBehaviour
     public Vector3 defaultpos;
     public Quaternion defaultrot;
 
+    public Camera cam;
+
     // Use this for initialization
     void Start () {
         hasFailed = false;
@@ -42,6 +44,8 @@ public class Car : MonoBehaviour
 
         defaultpos = transform.position;
         defaultrot = transform.rotation;
+
+        cam.enabled = false;
     }
 	
 	// Update is called once per frame
@@ -94,9 +98,25 @@ public class Car : MonoBehaviour
 
     void OnMouseDown()
     {
+        selectThisCar();
+    }
+
+    public void selectThisCar()
+    {
         master.selectedCar = this;
-        Renderer rend = GetComponent<Renderer>();
-        rend.material.color = new Color(0.5f, 1, 1);
+        cam.enabled = true;
+
+        foreach (GameObject carObj in SimMaster.instance.testSubjects)
+        {
+            Car car = carObj.GetComponent<Car>();
+            if (car != this)
+                car.disSelectThisCar();
+        }
+    }
+
+    public void disSelectThisCar()
+    {
+        cam.enabled = false;
     }
 
     public void setGenome(GGenome gen)
