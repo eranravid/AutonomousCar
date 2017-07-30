@@ -13,12 +13,13 @@ public class GUIController : MonoBehaviour {
     public Image carWheel;
     public Image speedDial;
     public Text steerText;
-    public Text speedText;    
+    public Text speedText;
+    public Button killButton;
 
 
     // Use this for initialization
     void Start () {
-
+        killButton.onClick.AddListener(onButtonKillClicked);
     }
 	
 	// Update is called once per frame
@@ -61,6 +62,11 @@ public class GUIController : MonoBehaviour {
 
 	    varTexts.Clear();
 
+    }
+
+    void onButtonKillClicked()
+    {
+        SimMaster.instance.selectedCar.GetComponent<hit>().crash = true;
     }
 
     private float MapInterval(float val, float srcMin, float srcMax, float dstMin, float dstMax)

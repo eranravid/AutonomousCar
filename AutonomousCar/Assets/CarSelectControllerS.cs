@@ -25,7 +25,7 @@ public class CarSelectControllerS : MonoBehaviour
     void onButtonClicked()
     {
         SimMaster.instance.testSubjects[id].GetComponent<Car>().selectThisCar();
-    }
+    }    
 
     public void SetFitness(int fitness)
     {
