@@ -20,7 +20,7 @@ public class RayCast : MonoBehaviour {
         rays = new float[raysNumber];
         angles = new Vector3[raysNumber];
 
-        for (int i = 0; i < raysNumber; i++)
+        /*for (int i = 0; i < raysNumber; i++)
         {
             LineRenderer line = gameObject.AddComponent<LineRenderer>();            
             line.startWidth = 2.5f;
@@ -30,7 +30,7 @@ public class RayCast : MonoBehaviour {
             line.SetPosition(1, transform.position + Vector3.up);
             lines.Add(line);
 
-        }
+        }*/
         
     }
 

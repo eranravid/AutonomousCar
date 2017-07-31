@@ -31,13 +31,13 @@ public class GUIController : MonoBehaviour {
 	    carFitness.text = car.fitness.ToString();
 
         var rotationVector = carWheel.transform.rotation.eulerAngles;
-	    rotationVector.z = MapInterval(car.headingAngle, -car.MAX_ROTATION, car.MAX_ROTATION, -90, 90); 
-        carWheel.transform.rotation = Quaternion.Euler(rotationVector);
-	    steerText.text = car.headingAngle.ToString();
+	    rotationVector.z = MapInterval(car.rawAngle, 0.0f, 1.0f, -90, 90); 
+        carWheel.transform.rotation = Quaternion.Euler(-rotationVector);
+	    steerText.text = car.rawAngle.ToString();
 
-        rotationVector.z = MapInterval(car.currentSpeed,0, car.MAX_SPEED, 170, -60);
+        rotationVector.z = MapInterval(car.rawSpeed,0.0f, 1.0f, 170, -60);
 	    speedDial.transform.rotation = Quaternion.Euler(rotationVector);
-	    speedText.text = car.currentSpeed.ToString();        
+	    speedText.text = car.rawSpeed.ToString();        
 
 
         rotationVector.z = 0;
@@ -66,7 +66,7 @@ public class GUIController : MonoBehaviour {
 
     void onButtonKillClicked()
     {
-        SimMaster.instance.selectedCar.GetComponent<hit>().crash = true;
+        SimMaster.instance.selectedCar.Kill();
     }
 
     private float MapInterval(float val, float srcMin, float srcMax, float dstMin, float dstMax)

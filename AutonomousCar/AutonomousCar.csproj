@@ -84,15 +84,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CarSelectControllerS.cs" />
-    <Compile Include="Assets\CarSelectListContent.cs" />
     <Compile Include="Assets\scripts\CameraController.cs" />
     <Compile Include="Assets\scripts\Car.cs" />
+    <Compile Include="Assets\scripts\CarSelectControllerS.cs" />
+    <Compile Include="Assets\scripts\CarSelectListContent.cs" />
+    <Compile Include="Assets\scripts\Checkpoint.cs" />
     <Compile Include="Assets\scripts\GUIController.cs" />
     <Compile Include="Assets\scripts\Motor.cs" />
     <Compile Include="Assets\scripts\RayCast.cs" />
     <Compile Include="Assets\scripts\SimMaster.cs" />
     <Compile Include="Assets\scripts\hit.cs" />
+    <Compile Include="Assets\scripts\selectControll.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

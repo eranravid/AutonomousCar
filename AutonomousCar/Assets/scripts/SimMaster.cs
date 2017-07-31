@@ -36,12 +36,8 @@ public class SimMaster : MonoBehaviour
         }
         instance = this;
 
-        gga = new GGA();
-
         // initialize Genetic Algorithm
-        //ga = new GA();
-        //int totalWeights = 9 * 8 + 8 * 2 + 8 + 2;
-        //ga.GenerateNewPopulation(15, totalWeights);
+        gga = new GGA();
         GGA.bestFitness = 0;
 
         // initialize test subjects
@@ -95,18 +91,11 @@ public class SimMaster : MonoBehaviour
     public void NextTestSubject(Car testAgent)
     {
 
-        //Genome genome = ga.GetNextGenome();
-        //genome.live = true;
-        //NNet net = testAgent.GetComponent<NNet>();
-        //net.FromGenome(genome, 9, 8, 2);  
-
         GGenome gen = gga.getNextGenome();
         if (gen != null)
         {
             testAgent.setGenome(gen);
         }
-
-        //testAgent.setGenome(new GGenome(9, new uint[] { 8, 8 }, 4));
         
     }
 
@@ -218,7 +207,7 @@ public class GGA
 
         for (int i = 0; i < numToGen; i++)
         {
-            float randomAmplfier = ((i / numToGen) - (bestFitness / fitnessGoal*2) + 1);
+            float randomAmplfier = ((i / numToGen) - (avarageFitness / fitnessGoal*2) + 1);
 
             newGenomes[i] = new GGenome(parents[0]._inputLayers, parents[0]._hiddenLayers, parents[0]._outputLayers);
             //int parentIndex = Random.Range(0, parents.Length); // more than 2 parents
@@ -255,7 +244,7 @@ public class GGA
                 // randomize wieght and set to new genome
                 if (Random.Range(0.0f, 1.0f) <= mutateRate * randomAmplfier)
                 {
-                    newWeight = Clamp(con.Weight + Random.Range(-randomMargin * randomAmplfier, randomMargin * randomAmplfier), -1.0f, 1.0f);
+                    newWeight = Clamp(con.Weight + Random.Range(-randomMargin * randomAmplfier, randomMargin * randomAmplfier), newGenomes[i].minWight, newGenomes[i].maxWight);
                 }
                 newGenomes[i].brain.SetWeight(con.FromNeuron, con.ToNeuron, newWeight);
             }
@@ -288,6 +277,8 @@ public class GGenome
     public uint _inputLayers;
     public uint[] _hiddenLayers;
     public uint _outputLayers;
+    public float minWight = -1.0f;
+    public float maxWight = 1.0f;
 
     public GGenome(uint inputLayers, uint[] hiddenLayers, uint outputLayers)
     {
@@ -305,7 +296,7 @@ public class GGenome
         layers.Add(outputLayers);
         brain = new FANNCSharp.Float.NeuralNet(FANNCSharp.NetworkType.LAYER, layers);
         brain.DisableSeedRand();
-        brain.RandomizeWeights(-1.0f,1.0f);
+        brain.RandomizeWeights(minWight, maxWight);
 
     }
 

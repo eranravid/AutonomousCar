@@ -26,14 +26,14 @@ public class Motor : MonoBehaviour {
 
 		float dir = heading / 180 * Mathf.PI;
 
-        speed = car.currentSpeed;
+        speed = car.currentSpeed;        
 
         float nx = - speed * Mathf.Cos (dir);
 		float nz = speed * Mathf.Sin (dir);
 
 		Vector3 newsp = new Vector3(nx,0,nz);
 
-		Vector3 newpos = transform.position + newsp * Time.deltaTime;
+		Vector3 newpos = transform.position + newsp * Time.deltaTime ;
 		transform.position = newpos;
 
         //Debug.Log("Motor: speed " + speed + " angle " + angle);
@@ -51,4 +51,5 @@ public class Motor : MonoBehaviour {
         }
         return val;
     }
+
 }

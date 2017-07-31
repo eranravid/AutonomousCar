@@ -14,6 +14,8 @@ public class Car : MonoBehaviour
     public float MAX_SPEED;
     public float headingAngle; //Degrees
     public float currentSpeed; // speed
+    public float rawAngle = 0.0f;
+    public float rawSpeed = 0.0f;
 
     public SimMaster master;
     //public NNet neuralnet;
@@ -24,6 +26,10 @@ public class Car : MonoBehaviour
     public hit hit;    
 
     public int fitness = 0;
+    public int lastFitness = 0; // for killing in not overcome threshold
+    public IEnumerator killFitnessRoutine;
+    public int killFitnessTime = 20; // in seconds
+    public int killFitnessThresh = 1; // how much fitness must do before time interval ends
     public int genomeIndx = 0;
 
     public Vector3 defaultpos;
@@ -31,9 +37,28 @@ public class Car : MonoBehaviour
 
     public Camera cam;
 
+    IEnumerator killTimerByFitness()
+    {
+        
+        yield return new WaitForSeconds(killFitnessTime);
+
+        if (fitness - lastFitness <= killFitnessThresh)
+        {
+            Kill();
+        }
+        lastFitness = fitness;
+
+        killFitnessRoutine = killTimerByFitness();
+        StartCoroutine(killFitnessRoutine);
+
+    }
+
     // Use this for initialization
     void Start () {
         hasFailed = false;
+
+        killFitnessRoutine = killTimerByFitness();
+        StartCoroutine(killTimerByFitness());
 
         //neuralnet = gameObject.GetComponent<NNet>();
         //neuralnet.CreateNet(1, 9, 8, 2);
@@ -73,7 +98,7 @@ public class Car : MonoBehaviour
             float[] inputs = new float[RayCast.raysNumber];
             for (int i = 0; i < raycast.rays.Length; i++)
             {
-                float dist = Normalise(raycast.rays[i]);
+                float dist = MapInterval(raycast.rays[i], 0, RayCast.RayCast_Length,-1.0f, 1.0f);
                 inputs[i] = dist;
             }
 
@@ -84,11 +109,10 @@ public class Car : MonoBehaviour
             //float speed = neuralnet.GetOutput(0);
             //float angle = neuralnet.GetOutput(1);
 
-            float speed = result[0];
-            float angle = result[1];
-
-            currentSpeed = Clamp(speed * MAX_SPEED, -MAX_SPEED, MAX_SPEED);
-            headingAngle = angle * MAX_ROTATION * 2 - MAX_ROTATION;
+            rawSpeed = result[0];
+            rawAngle = result[1];
+            currentSpeed = MapInterval(rawSpeed, 0.0f, 1.0f, -MAX_SPEED/10, MAX_SPEED);
+            headingAngle = MapInterval(rawAngle, 0.0f, 1.0f, -MAX_ROTATION, MAX_ROTATION);
 
             //Debug.Log("Car raw output: speed " + speed + " angle " + angle);
             //Debug.Log("Car serialized output: speed " + currentSpeed + " angle " + headingAngle);
@@ -119,18 +143,17 @@ public class Car : MonoBehaviour
         cam.enabled = false;
     }
 
+    public void Kill()
+    {
+        GetComponent<hit>().crash = true;
+    }
+
     public void setGenome(GGenome gen)
     {
         genome = null;
         neuralnet = null;
         genome = gen;
         neuralnet = gen.brain;
-    }
-
-    public float Normalise(float x)
-    {
-        float depth = x / RayCast.RayCast_Length;
-        return  depth * 2 - 1;
     }
 
     public void ClearFailure()
@@ -140,13 +163,20 @@ public class Car : MonoBehaviour
         hasFailed = false;
         
         fitness = 0;
+        lastFitness = 0;
+        if (killFitnessRoutine != null)
+        {
+            StopCoroutine(killFitnessRoutine);
+            killFitnessRoutine = killTimerByFitness();
+            StartCoroutine(killFitnessRoutine);
+        }
+
         transform.position = defaultpos;
         transform.rotation = defaultrot;
 
         if (hit != null)
         {
-            hit.crash = false;
-            hit.checkpoints = 0;
+            hit.reset();
         }
 
     }
@@ -162,5 +192,12 @@ public class Car : MonoBehaviour
             return max;
         }
         return val;
+    }
+
+    private float MapInterval(float val, float srcMin, float srcMax, float dstMin, float dstMax)
+    {
+        if (val >= srcMax) return dstMax;
+        if (val <= srcMin) return dstMin;
+        return dstMin + (val - srcMin) / (srcMax - srcMin) * (dstMax - dstMin);
     }
 }
