@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 
     public float panSpeed = 20.0f;
     public float panBorderThickness = 10.0f; 
-    public Rect panLimit = new Rect(-100,-380,25,-275);
+    public Rect panLimit = new Rect(-125,-325,0,-250);
     public float scrollSpeed = 200.0f;
     public float maxScroll = 500.0f;
     public float minScroll = 100.0f;

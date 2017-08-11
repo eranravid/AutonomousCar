@@ -95,12 +95,14 @@ public class Car : MonoBehaviour
                 inputs.Add(dist);
             }*/
 
-            float[] inputs = new float[RayCast.raysNumber];
-            for (int i = 0; i < raycast.rays.Length; i++)
+            float[] inputs = new float[RayCast.raysNumber + 2];
+            for (int i = 0; i < RayCast.raysNumber; i++)
             {
                 float dist = MapInterval(raycast.rays[i], 0, RayCast.RayCast_Length,-1.0f, 1.0f);
                 inputs[i] = dist;
             }
+            inputs[inputs.Length - 2] = rawSpeed;
+            inputs[inputs.Length - 1] = rawAngle;
 
             float[] result = neuralnet.Run(inputs);
             //neuralnet.SetInput(inputs);

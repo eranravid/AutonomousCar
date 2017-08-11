@@ -116,12 +116,20 @@ public class GGA
     public  List<GGenome> liveGenomes = new  List<GGenome>();
     public  List<GGenome> deadGenomes = new  List<GGenome>();
 
+    public uint inputNum;
+    public uint[] hiddenArr;
+    public uint outputNum;
+
     public GGA()
     {
+
+        inputNum = Convert.ToUInt32(RayCast.raysNumber) + 2;
+        hiddenArr = new uint[] { Convert.ToUInt32(RayCast.raysNumber) };
+        outputNum = 2;
+
         for (int i = 0; i < populationNumber; i++)
         {
-            uint rn = Convert.ToUInt32(RayCast.raysNumber);
-            genomes.Add(new GGenome(rn, new uint[]{ rn },2));
+            genomes.Add(new GGenome(inputNum, hiddenArr, outputNum));
         }
     }
 

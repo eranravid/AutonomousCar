@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 
 public class GUIController : MonoBehaviour {
 
     public List<Text> texts = new List<Text>();
     private List<String> varTexts = new List<String>();
+    public GameObject carPanel;
     public Text carID;
     public Text carFitness;
     public Image carWheel;
@@ -16,10 +18,87 @@ public class GUIController : MonoBehaviour {
     public Text speedText;
     public Button killButton;
 
+    public List<UILineRenderer> nnInputLinesNode = new List<UILineRenderer>();
+    public List<UILineRenderer> nnHiddenLinesNode = new List<UILineRenderer>();
+    public List<UILineRenderer> nnInputLines = new List<UILineRenderer>();
+    public List<UILineRenderer> nnHiddenLines = new List<UILineRenderer>();
+
 
     // Use this for initialization
     void Start () {
         killButton.onClick.AddListener(onButtonKillClicked);
+
+        uint inputsNum = SimMaster.instance.gga.inputNum;
+        uint[] hiddenArr = SimMaster.instance.gga.hiddenArr;
+        uint outputNum = SimMaster.instance.gga.outputNum;
+
+        float xd = 100;
+        float yd = gameObject.GetComponent<RectTransform>().rect.height - 10;
+        float w = (float)(carPanel.gameObject.GetComponent<RectTransform>().rect.height * 0.85 / (inputsNum*2));
+        float h = w;
+        float space = h;
+
+        // input nodes
+        /*for (int i = 0; i < inputsNum; i++)
+        {
+            addUILine(nnInputLinesNode, new Vector2(xd, yd - (i * space + i * h)), new Vector2(xd, yd - (i * space + i * h + w)), h, Color.green);
+        }
+
+        // hidden nodes
+        float hiddenWidth = (float)(carPanel.gameObject.GetComponent<RectTransform>().rect.width * 0.85);
+        for (int i = 0; i < hiddenArr.Length; i++)
+        {
+            for (int j = 0; j < hiddenArr[i]; j++)
+            {
+                //float x = xd +  (hiddenWidth / (hiddenArr.Length + 1)) * (i + 1);
+                float x = hiddenWidth;
+                addUILine(nnHiddenLinesNode, new Vector2(x, yd - (j * space + j * h)), new Vector2(x, yd - (j * space + j * h + w)), h, Color.red);
+            }
+        }*/
+
+        // input lines to hidden
+        /*for (int i = 0; i < nnInputLinesNode.Count; i++)
+        {
+            for (int j = 0; j < nnHiddenLinesNode.Count; j++)
+            {
+                addUILine(nnInputLines,
+                    new Vector2(nnInputLinesNode[i].Points[1].x, nnInputLinesNode[i].Points[1].y + h/2),
+                        new Vector2(nnHiddenLinesNode[j].Points[0].x, nnHiddenLinesNode[j].Points[0].y - h/2), 
+                        h/10, 
+                        Color.green);
+            }
+        }*/
+
+        // wieghts as dots
+        /*for (int i = 0; i < nnInputLinesNode.Count; i++)
+        {
+            for (int j = 0; j < nnHiddenLinesNode.Count; j++)
+            {
+                float x = xd + w + i * space + i * w;
+                float x2 = x + w;
+                float y = yd - (j * space + j * h);
+                addUILine(nnHiddenLinesNode, new Vector2(x, y), new Vector2(x2, y), h, Color.blue);
+            }
+        }*/
+
+    }
+
+    void addUILine(List<UILineRenderer> ls, Vector2 v1, Vector2 v2, float thickness, Color c)
+    {
+        GameObject go = new GameObject();
+        go.transform.parent = carPanel.gameObject.transform;
+        
+        UILineRenderer line = go.AddComponent(typeof(UILineRenderer)) as UILineRenderer;
+        line.Points = new Vector2[2];
+        line.Points[0] = v1;
+        line.Points[1] = v2;
+        line.LineThickness = thickness;
+        line.color = c;
+
+        //Renderer rend = go.AddComponent(typeof(Renderer)) as Renderer;
+        //rend.material.color = Color.white;
+
+        ls.Add(line);
     }
 	
 	// Update is called once per frame
@@ -37,11 +116,8 @@ public class GUIController : MonoBehaviour {
 
         rotationVector.z = MapInterval(car.rawSpeed,0.0f, 1.0f, 170, -60);
 	    speedDial.transform.rotation = Quaternion.Euler(rotationVector);
-	    speedText.text = car.rawSpeed.ToString();        
+	    speedText.text = car.rawSpeed.ToString();
 
-
-        rotationVector.z = 0;
-	    transform.rotation = Quaternion.Euler(rotationVector);
 
         // texts / configs
         varTexts.Add(Time.time.ToString("00.00"));
