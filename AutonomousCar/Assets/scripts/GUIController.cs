@@ -17,6 +17,7 @@ public class GUIController : MonoBehaviour {
     public Text steerText;
     public Text speedText;
     public Button killButton;
+    public Toggle lockBestFitnessToggle;
 
     public List<UILineRenderer> nnInputLinesNode = new List<UILineRenderer>();
     public List<UILineRenderer> nnHiddenLinesNode = new List<UILineRenderer>();
@@ -27,6 +28,7 @@ public class GUIController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         killButton.onClick.AddListener(onButtonKillClicked);
+        lockBestFitnessToggle.onValueChanged.AddListener(onBestFitnessToggle);
 
         uint inputsNum = SimMaster.instance.gga.inputNum;
         uint[] hiddenArr = SimMaster.instance.gga.hiddenArr;
@@ -150,6 +152,11 @@ public class GUIController : MonoBehaviour {
         if (val >= srcMax) return dstMax;
         if (val <= srcMin) return dstMin;
         return dstMin + (val - srcMin) / (srcMax - srcMin) * (dstMax - dstMin);
+    }
+
+    private void onBestFitnessToggle(bool val)
+    {
+        SimMaster.instance.lockBestFitness = val;
     }
 
 }

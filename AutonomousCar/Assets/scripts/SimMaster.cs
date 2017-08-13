@@ -19,6 +19,7 @@ public class SimMaster : MonoBehaviour
     public GameObject[] SPs;
 
     public Car selectedCar;
+    public bool lockBestFitness = false;
 
     public void OnGUI()
     {
@@ -63,6 +64,7 @@ public class SimMaster : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+	    int currBestFitness = 0;
 	    gga.CalculateAvarageFitness();
         for (int i=0; i< testSubjects.Count; i++)
         {
@@ -82,7 +84,15 @@ public class SimMaster : MonoBehaviour
             // best fitness
             if (testAgent.fitness > GGA.bestFitness)
             {
-                GGA.bestFitness = testAgent.fitness;
+                GGA.bestFitness = testAgent.fitness;                
+            }
+            if (testAgent.fitness > currBestFitness)
+            {
+                currBestFitness = testAgent.fitness;
+                if (lockBestFitness)
+                {
+                    testAgent.selectThisCar();
+                }
             }
         }
        

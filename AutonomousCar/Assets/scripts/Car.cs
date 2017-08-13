@@ -138,11 +138,14 @@ public class Car : MonoBehaviour
             if (car != this)
                 car.disSelectThisCar();
         }
+
+        raycast.highlightCast();
     }
 
     public void disSelectThisCar()
     {
         cam.enabled = false;
+        raycast.clearCast();
     }
 
     public void Kill()
