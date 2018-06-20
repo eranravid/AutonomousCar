@@ -54,7 +54,7 @@ public class SimMaster : MonoBehaviour
             carComp.master = this;
             carComp.id = gga.liveGenomes.Count;
             testSubjects.Add(car);
-            // initiate as test subjuct by gga
+            // initiate as test subject by gga
             NextTestSubject(carComp);
             selectedCar = carComp;
         }        
@@ -68,14 +68,10 @@ public class SimMaster : MonoBehaviour
 	    gga.CalculateAvarageFitness();
         for (int i=0; i< testSubjects.Count; i++)
         {
-            // if test subject falied start a new one
+            // if test subject failed start a new one
             Car testAgent = testSubjects[i].GetComponent<Car>();
             if (testAgent.hasFailed)
-            {
-                //int gindx = ga.GetCurrentGenomeIndex();
-                // Genome genome = ga.GetGenome(gindx);
-                //genome.live = false;
-                //testAgent.genomeIndx = gindx;
+            {                
                 gga.killGenome(testAgent.genome);
                 testAgent.ClearFailure(); // reset subject
                 NextTestSubject(testAgent); // start new subject
@@ -118,8 +114,8 @@ public class GGA
     public int generation = 0;
     public int populationNumber = 20;
     public float randomMargin = 0.5f; // how much random range a mutate has
-    public float mutateRate = 0.55f; // the chane for each gene to take random mutate
-    public int fitnessGoal = 2000; // amount of fitness to stop generating genomes. also randomAmplfier of crossbreed for mutateRate & randomMargin is redundent by it.
+    public float mutateRate = 0.55f; // the chance for each gene to take random mutate
+    public int fitnessGoal = 2000; // amount of fitness to stop generating genomes. also randomAmplifier of crossbreed for mutateRate & randomMargin is redundant by it.
     public static int bestFitness = 0;
     public static float avarageFitness = 0; 
     public  List<GGenome> genomes = new  List<GGenome>();
@@ -191,7 +187,7 @@ public class GGA
         }
         deadGenomes = new  List<GGenome>();
 
-        // fill up randomed breeded genomes
+        // fill up random breed genomes
         GGenome[] newGenomes = crossBreed(parents, populationNumber - genomes.Count, true);
         for (var j = 0; j < newGenomes.Length; j++)
         {
@@ -225,7 +221,7 @@ public class GGA
 
         for (int i = 0; i < numToGen; i++)
         {
-            float randomAmplfier = ((i / numToGen) - (avarageFitness / fitnessGoal*2) + 1);
+            float randomAmplifier = ((i / numToGen) - (avarageFitness / fitnessGoal*2) + 1);
 
             newGenomes[i] = new GGenome(parents[0]._inputLayers, parents[0]._hiddenLayers, parents[0]._outputLayers);
             //int parentIndex = Random.Range(0, parents.Length); // more than 2 parents
@@ -259,10 +255,10 @@ public class GGA
                 }
 
                 newWeight = con.Weight;
-                // randomize wieght and set to new genome
-                if (Random.Range(0.0f, 1.0f) <= mutateRate * randomAmplfier)
+                // randomize weight and set to new genome
+                if (Random.Range(0.0f, 1.0f) <= mutateRate * randomAmplifier)
                 {
-                    newWeight = Clamp(con.Weight + Random.Range(-randomMargin * randomAmplfier, randomMargin * randomAmplfier), newGenomes[i].minWight, newGenomes[i].maxWight);
+                    newWeight = Clamp(con.Weight + Random.Range(-randomMargin * randomAmplifier, randomMargin * randomAmplifier), newGenomes[i].minWight, newGenomes[i].maxWight);
                 }
                 newGenomes[i].brain.SetWeight(con.FromNeuron, con.ToNeuron, newWeight);
             }

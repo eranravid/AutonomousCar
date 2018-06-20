@@ -91,7 +91,7 @@ public class Car : MonoBehaviour
             /*List<float> inputs = new List<float>();
             for (int i = 0; i < raycast.rays.Length; i++)
             {
-                float dist = Normalise(raycast.rays[i]);
+                float dist = Normalize(raycast.rays[i]);
                 inputs.Add(dist);
             }*/
 

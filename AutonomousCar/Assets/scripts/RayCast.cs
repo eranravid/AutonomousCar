@@ -71,7 +71,7 @@ public class RayCast : MonoBehaviour {
                 hit.distance = RayCast_Length;
             }
 
-            // total dintance lines
+            // total distance lines
             Debug.DrawLine(origin, angles[i], Color.blue);
 
             // game play lines render
@@ -81,7 +81,7 @@ public class RayCast : MonoBehaviour {
                 lines[i + raysNumber].SetPosition(1, angles[i]);
             }
 
-            // hit dintance lines
+            // hit distance lines
             Vector3 shortRay = new Vector3(origin.x - hit.distance * Mathf.Sin(angle), origin.y, origin.z - hit.distance * Mathf.Cos(angle));
             Debug.DrawLine(origin, shortRay, Color.red);
 

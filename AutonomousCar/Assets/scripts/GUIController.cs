@@ -71,7 +71,7 @@ public class GUIController : MonoBehaviour {
             }
         }*/
 
-        // wieghts as dots
+        // weights as dots
         /*for (int i = 0; i < nnInputLinesNode.Count; i++)
         {
             for (int j = 0; j < nnHiddenLinesNode.Count; j++)
