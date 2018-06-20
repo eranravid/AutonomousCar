@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+    SimMaster is the simulation runner.
+ */
 public class SimMaster : MonoBehaviour
 {
     public static SimMaster instance;

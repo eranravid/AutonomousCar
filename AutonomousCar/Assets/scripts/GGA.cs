@@ -5,6 +5,11 @@ using System.Linq;
 using Random = UnityEngine.Random;
 using FANNCSharp.Float;
 
+/*
+    GGA is the Genetic Algorithm class.
+    It does the fitness calc, crossover, mutate and controll the genome population.
+    It has high parameters that you can config and change.
+ */
 public class GGA 
 {
     public int generation = 0;

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using FANNCSharp.Float;
 using UnityEngine;
 
+/*
+    Car is the agent in our simulation.
+    It has motor which controll the car's movement.
+    It has a brain to controll the car's behaviour.
+ */
 public class Car : MonoBehaviour
 {
-
     public int id = 0;
 
     public bool hasFailed = false;
@@ -18,7 +22,6 @@ public class Car : MonoBehaviour
     public float rawSpeed = 0.0f;
 
     public SimMaster master;
-    //public NNet neuralnet;
     public FANNCSharp.Float.NeuralNet neuralnet;
     public GGenome genome;
     public RayCast raycast;
@@ -37,6 +40,7 @@ public class Car : MonoBehaviour
 
     public Camera cam;
 
+    // this function will kill the agent in case it did not collect any food for certain amount of time
     IEnumerator killTimerByFitness()
     {
         
@@ -58,11 +62,8 @@ public class Car : MonoBehaviour
         hasFailed = false;
 
         killFitnessRoutine = killTimerByFitness();
-        StartCoroutine(killTimerByFitness());
+        StartCoroutine(killFitnessRoutine);
 
-        //neuralnet = gameObject.GetComponent<NNet>();
-        //neuralnet.CreateNet(1, 9, 8, 2);
-        //neuralnet = genome.brain;
         raycast = gameObject.GetComponent<RayCast>();
         motor = gameObject.GetComponent<Motor>();
         hit = gameObject.GetComponent<hit>();
@@ -88,13 +89,7 @@ public class Car : MonoBehaviour
 
              genome.fitness = fitness;// record fitness
 
-            /*List<float> inputs = new List<float>();
-            for (int i = 0; i < raycast.rays.Length; i++)
-            {
-                float dist = Normalize(raycast.rays[i]);
-                inputs.Add(dist);
-            }*/
-
+            // set the inputs, activate function, and get results
             float[] inputs = new float[RayCast.raysNumber + 2];
             for (int i = 0; i < RayCast.raysNumber; i++)
             {
@@ -105,19 +100,14 @@ public class Car : MonoBehaviour
             inputs[inputs.Length - 1] = rawAngle;
 
             float[] result = neuralnet.Run(inputs);
-            //neuralnet.SetInput(inputs);
-            //neuralnet.refresh();
-
-            //float speed = neuralnet.GetOutput(0);
-            //float angle = neuralnet.GetOutput(1);
 
             rawSpeed = result[0];
             rawAngle = result[1];
             currentSpeed = MapInterval(rawSpeed, 0.0f, 1.0f, -MAX_SPEED/10, MAX_SPEED);
             headingAngle = MapInterval(rawAngle, 0.0f, 1.0f, -MAX_ROTATION, MAX_ROTATION);
 
-            //Debug.Log("Car raw output: speed " + speed + " angle " + angle);
-            //Debug.Log("Car serialized output: speed " + currentSpeed + " angle " + headingAngle);
+            //Debug.Log("Car raw output: speed " + rawSpeed + " angle " + rawAngle);
+            //Debug.Log("Car serialized output: currentSpeed " + currentSpeed + " angle " + headingAngle);
         }
         
     }
@@ -184,19 +174,6 @@ public class Car : MonoBehaviour
             hit.reset();
         }
 
-    }
-
-    public float Clamp(float val, float min, float max)
-    {
-        if (val < min)
-        {
-            return min;
-        }
-        if (val > max)
-        {
-            return max;
-        }
-        return val;
     }
 
     private float MapInterval(float val, float srcMin, float srcMax, float dstMin, float dstMax)
